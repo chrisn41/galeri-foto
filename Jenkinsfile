@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/NAMA_KAMU/galeri-foto.git'
+                git 'https://github.com/chrisn41/galeri-foto.git'
             }
         }
 
