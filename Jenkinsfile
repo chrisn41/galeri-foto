@@ -1,31 +1,28 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone') {
-            steps {
-                git 'https://github.com/chrisn41/galeri-foto.git'
-            }
-        }
+    environment {
+        IMAGE_NAME = 'galeri'
+    }
 
+    stages {
         stage('Build Image') {
             steps {
-                sh 'docker build -t galeri:latest .'
+                sh 'docker build -t $IMAGE_NAME:latest .'
             }
         }
 
         stage('Deploy Container') {
             steps {
-                sh 'docker stop galeri || true'
-                sh 'docker rm galeri || true'
-                sh 'docker run -d --name galeri -p 8081:80 galeri:latest'
+                sh 'docker stop $IMAGE_NAME || true'
+                sh 'docker rm $IMAGE_NAME || true'
+                sh 'docker run -d --name $IMAGE_NAME -p 8081:80 $IMAGE_NAME:latest'
             }
         }
 
         stage('Monitor Storage') {
             steps {
-                sh 'df -h > storage.txt'
-                sh 'cat storage.txt'
+                sh 'df -h'
             }
         }
     }
